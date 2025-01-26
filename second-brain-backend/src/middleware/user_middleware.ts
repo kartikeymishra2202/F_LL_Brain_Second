@@ -8,7 +8,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
   if (!JWT_SECRET_) {
     throw new Error("JWT_SECRET is not defined in the environment variables");
   }
-  const token = req.cookies.token;
+  const token = req.headers["authorization"]?.split(" ")[1];
 
   if (!token) {
     res.status(401).json({

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const content = new Schema({
   title: String,
   link: String,
+  type: String,
   tags: [
     {
       type: mongoose.Types.ObjectId,

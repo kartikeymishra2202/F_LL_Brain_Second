@@ -72,13 +72,13 @@ userRoutes.post("/signin", async function (req: any, res: any) {
         id: user._id,
       },
       JWT_SECRET_,
-      { expiresIn: "1h" }
+      { expiresIn: "8h" }
     );
     //setting the token in cookies--------------------------------------------------------------------
     //In order to add cookies first include cookie-parser for typescript use @type/cookie parser.
     res.cookie("token", token, {
       httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-
+      secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 1000, // 1 hour (in milliseconds)
       sameSite: "strict", // Prevent CSRF attacks
     });
@@ -86,6 +86,7 @@ userRoutes.post("/signin", async function (req: any, res: any) {
 
     return res.status(201).json({
       message: "token generated successfully",
+      token: token,
     });
   } else {
     return res.status(401).json({

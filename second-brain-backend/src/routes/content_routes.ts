@@ -7,10 +7,12 @@ const content_routes = Router();
 content_routes.post("/addContent", auth, async function (req, res) {
   const link = req.body.link;
   const type = req.body.type;
+
   try {
     await contentModel.create({
       link: link,
       type: type,
+      title: req.body.title,
       //@ts-ignore
       userId: req.userId,
       tags: [],
@@ -31,7 +33,7 @@ content_routes.get("/getContent", auth, async function (req: any, res: any) {
   const userId = req.userId;
 
   const content = await contentModel
-    .findOne({
+    .find({
       userId: userId,
     })
     .populate("userId", "name");
@@ -41,15 +43,12 @@ content_routes.get("/getContent", auth, async function (req: any, res: any) {
       message: "Could not find the content.",
     });
   }
-  return res.status(201).json({
-    message: "success",
-    content,
-  });
+  return res.status(201).json({ content });
 });
 
 content_routes.delete("/deleteContent", auth, async function (req, res) {
   const contentId = req.body.contentId;
-  const content = await contentModel.deleteMany({
+  const content = await contentModel.findOneAndDelete({
     contentId,
     //@ts-ignore
     userId: req.userId,
