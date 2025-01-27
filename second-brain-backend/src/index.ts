@@ -18,4 +18,6 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/share", share_routes);
 app.use("/api/v1/content", content_routes);
 
-app.listen(5000);
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
