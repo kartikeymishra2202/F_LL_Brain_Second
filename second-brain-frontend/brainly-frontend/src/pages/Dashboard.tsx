@@ -25,8 +25,8 @@ function Dashboard() {
 
   useEffect(() => {
     refresh();
-  }, [modalopen]);
-  console.log("Content in Dashboard:", content);
+  }, [modalopen, refresh]);
+  // console.log("Content in Dashboard:", content);
   // console.log("Type of content:", typeof content);
   // console.log("Is content an array?", Array.isArray(content));
   return (

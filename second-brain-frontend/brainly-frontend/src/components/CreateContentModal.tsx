@@ -8,8 +8,14 @@ enum ContentType {
   Youtube = "youtube",
   Twitter = "twitter",
 }
-
-export function ContentModal({ open, onClose }) {
+interface CreateContentModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+export const ContentModal: React.FC<CreateContentModalProps> = ({
+  open,
+  onClose,
+}) => {
   const [type, setType] = useState(ContentType.Youtube);
   const linkRef = useRef<HTMLInputElement>();
   const titleRef = useRef<HTMLInputElement>();
@@ -101,12 +107,13 @@ export function ContentModal({ open, onClose }) {
       )}
     </div>
   );
-}
+};
 
 export function Input({
   reference,
   placeholder,
 }: {
+  
   reference?: any;
   placeholder: string;
 }) {

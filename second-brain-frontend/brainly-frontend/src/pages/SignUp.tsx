@@ -4,7 +4,6 @@ import { Button } from "../components/ui/Button";
 import { Backend_Url } from "../config";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
 
 export function SignUp() {
   const usernameRef = useRef<HTMLInputElement>();
