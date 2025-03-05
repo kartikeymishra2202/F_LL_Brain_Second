@@ -51,7 +51,7 @@ export function Card({ title, link, type, contentId }: CardProps) {
           >
             <DeleteIcon />
           </div>
-          {title}
+          <span className="line-clamp-1">{title}</span>
         </div>
         <div className="flex items-center text-2xl">
           <div className=" pr-2 text-gray-500">
