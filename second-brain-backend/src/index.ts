@@ -13,7 +13,9 @@ const corsOptions = {
   origin: [
     "https://f-ll-brain.vercel.app",
     "http://localhost:3000",
+    "https://f-ll-brain-second.vercel.app",
     "https://f-ll-brain-second.vercel.app/",
+    "https://f-ll-brain.vercel.app/",
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -22,8 +24,10 @@ const corsOptions = {
     "Authorization",
     "Cookie",
     "X-Requested-With",
+    "Accept",
   ],
   exposedHeaders: ["Set-Cookie"],
+  maxAge: 86400, // 24 hours
 };
 
 app.use(cors(corsOptions));

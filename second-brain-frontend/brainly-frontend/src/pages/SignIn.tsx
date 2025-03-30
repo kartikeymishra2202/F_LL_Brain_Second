@@ -4,11 +4,22 @@ import { Button } from "../components/ui/Button";
 import axiosInstance from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import { Backend_Url } from "../config";
 
 export function SignIn() {
   const passwordRef = useRef<HTMLInputElement>();
   const useremailRef = useRef<HTMLInputElement>();
   const navigate = useNavigate();
+
+  async function checkBackendConnection() {
+    try {
+      const response = await fetch(Backend_Url);
+      return response.ok;
+    } catch (error) {
+      console.error("Backend connection check failed:", error);
+      return false;
+    }
+  }
 
   async function inputCheck() {
     const password = passwordRef.current?.value;
@@ -19,10 +30,22 @@ export function SignIn() {
     }
 
     try {
+      // First check if backend is accessible
+      const isBackendAvailable = await checkBackendConnection();
+      if (!isBackendAvailable) {
+        alert(
+          "Cannot connect to server. Please check if the server is running."
+        );
+        return;
+      }
+
+      console.log("Attempting to sign in with:", { email });
       const response = await axiosInstance.post("/api/v1/user/signin", {
         password,
         email,
       });
+
+      console.log("Sign in response:", response.data);
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
@@ -36,15 +59,19 @@ export function SignIn() {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
+          console.error("Server response:", error.response.data);
           alert(error.response.data.message || "Sign in failed!");
         } else if (error.request) {
           // The request was made but no response was received
+          console.error("No response received:", error.request);
           alert("No response from server. Please check your connection.");
         } else {
           // Something happened in setting up the request that triggered an Error
+          console.error("Request setup error:", error.message);
           alert("Error: " + error.message);
         }
       } else {
+        console.error("Unexpected error:", error);
         alert("An unexpected error occurred");
       }
     }

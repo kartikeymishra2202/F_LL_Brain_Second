@@ -4,6 +4,7 @@ import { Backend_Url } from "../config";
 const axiosInstance = axios.create({
   baseURL: Backend_Url,
   withCredentials: true,
+  timeout: 10000, // 10 seconds timeout
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -22,6 +23,17 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for better error handling
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.code === "ECONNABORTED") {
+      console.error("Request timeout");
+    }
     return Promise.reject(error);
   }
 );
