@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { Input } from "../components/CreateContentModal";
 import { Button } from "../components/ui/Button";
-import { Backend_Url } from "../config";
-import axios from "axios";
+import axiosInstance from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 export function SignIn() {
   const passwordRef = useRef<HTMLInputElement>();
@@ -13,22 +13,39 @@ export function SignIn() {
   async function inputCheck() {
     const password = passwordRef.current?.value;
     const email = useremailRef.current?.value;
-    if (!password || !email) alert("Please Fill Up All Detail to proceed");
-    else {
-      try {
-        const response = await axios.post(Backend_Url + "/api/v1/user/signin", {
-          password,
-          email,
-        });
-        const jwt = response.data.token;
+    if (!password || !email) {
+      alert("Please Fill Up All Detail to proceed");
+      return;
+    }
 
-        localStorage.setItem("token", jwt);
+    try {
+      const response = await axiosInstance.post("/api/v1/user/signin", {
+        password,
+        email,
+      });
+
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
         navigate("/dashboard");
-
-        alert("SignIn");
-      } catch (error) {
-        console.error("Error signing in:", error);
-        alert("SignIn failed!");
+      } else {
+        alert("No token received from server");
+      }
+    } catch (error) {
+      console.error("Error signing in:", error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          alert(error.response.data.message || "Sign in failed!");
+        } else if (error.request) {
+          // The request was made but no response was received
+          alert("No response from server. Please check your connection.");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          alert("Error: " + error.message);
+        }
+      } else {
+        alert("An unexpected error occurred");
       }
     }
   }
