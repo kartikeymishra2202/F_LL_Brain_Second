@@ -4,22 +4,11 @@ import { Button } from "../components/ui/Button";
 import axiosInstance from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-import { Backend_Url } from "../config";
 
 export function SignIn() {
   const passwordRef = useRef<HTMLInputElement>();
   const useremailRef = useRef<HTMLInputElement>();
   const navigate = useNavigate();
-
-  async function checkBackendConnection() {
-    try {
-      const response = await fetch(Backend_Url);
-      return response.ok;
-    } catch (error) {
-      console.error("Backend connection check failed:", error);
-      return false;
-    }
-  }
 
   async function inputCheck() {
     const password = passwordRef.current?.value;
@@ -30,15 +19,6 @@ export function SignIn() {
     }
 
     try {
-      // First check if backend is accessible
-      const isBackendAvailable = await checkBackendConnection();
-      if (!isBackendAvailable) {
-        alert(
-          "Cannot connect to server. Please check if the server is running."
-        );
-        return;
-      }
-
       console.log("Attempting to sign in with:", { email });
       const response = await axiosInstance.post("/api/v1/user/signin", {
         password,

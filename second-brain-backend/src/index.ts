@@ -10,13 +10,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: [
-    "https://f-ll-brain.vercel.app",
-    "http://localhost:3000",
-    "https://f-ll-brain-second.vercel.app",
-    "https://f-ll-brain-second.vercel.app/",
-    "https://f-ll-brain.vercel.app/",
-  ],
+  origin: true, // Allow all origins
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [
