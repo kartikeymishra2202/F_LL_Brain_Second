@@ -7,17 +7,10 @@ import connectDB from "./db/db";
 import cors from "cors";
 
 const app = express();
+app.use(cors());
 
-// CORS configuration
-const corsOptions = {
-  origin: ["https://f-ll-brain.vercel.app", "http://localhost:3000"], // Add your frontend URLs
-  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-};
-
-app.use(cors(corsOptions));
 app.use(express.json());
+
 app.use(cookieParser());
 connectDB();
 

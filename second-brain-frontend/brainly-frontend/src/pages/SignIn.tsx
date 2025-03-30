@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Input } from "../components/CreateContentModal";
 import { Button } from "../components/ui/Button";
 import { Backend_Url } from "../config";
-import axiosInstance from "../api/axios";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 export function SignIn() {
@@ -16,7 +16,7 @@ export function SignIn() {
     if (!password || !email) alert("Please Fill Up All Detail to proceed");
     else {
       try {
-        const response = await axiosInstance.post("/api/v1/user/signin", {
+        const response = await axios.post(Backend_Url + "/api/v1/user/signin", {
           password,
           email,
         });
