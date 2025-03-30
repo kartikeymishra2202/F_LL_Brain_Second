@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { Input } from "../components/CreateContentModal";
 import { Button } from "../components/ui/Button";
-import { Backend_Url } from "../config";
-import axios from "axios";
+import axiosInstance from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
 export function SignUp() {
   const usernameRef = useRef<HTMLInputElement>();
@@ -15,21 +15,38 @@ export function SignUp() {
     const name = usernameRef.current?.value;
     const password = passwordRef.current?.value;
     const email = useremailRef.current?.value;
-    if (!name || !password || !email)
-      alert("Please Fill Up All Detail to proceed");
-    else {
-      try {
-        await axios.post(Backend_Url + "/api/v1/user/signup", {
-          name,
-          password,
-          email,
-        });
 
-        alert("SignUp");
-        navigate("/signin");
-      } catch (error) {
-        console.error("Error signing up:", error);
-        alert("SignUp failed!");
+    if (!name || !password || !email) {
+      alert("Please Fill Up All Detail to proceed");
+      return;
+    }
+
+    try {
+      console.log("Attempting to sign up with:", { email, name });
+      await axiosInstance.post("/api/v1/user/signup", {
+        name,
+        password,
+        email,
+      });
+
+      alert("Sign up successful! Please sign in.");
+      navigate("/signin");
+    } catch (error) {
+      console.error("Error signing up:", error);
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error("Server response:", error.response.data);
+          alert(error.response.data.message || "Sign up failed!");
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+          alert("No response from server. Please check your connection.");
+        } else {
+          console.error("Request setup error:", error.message);
+          alert("Error: " + error.message);
+        }
+      } else {
+        console.error("Unexpected error:", error);
+        alert("An unexpected error occurred");
       }
     }
   }
