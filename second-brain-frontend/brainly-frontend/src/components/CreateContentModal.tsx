@@ -7,6 +7,7 @@ import axios from "axios";
 enum ContentType {
   Youtube = "youtube",
   Twitter = "twitter",
+  Instagram="instagram"
 }
 interface CreateContentModalProps {
   open: boolean;
@@ -89,6 +90,16 @@ export const ContentModal: React.FC<CreateContentModalProps> = ({
                     }
                     onClick={() => {
                       setType(ContentType.Twitter);
+                    }}
+                  />
+                  <Button
+                    text="Instagram"
+                    size="sm"
+                    varient={
+                      type === ContentType.Instagram ? "primary" : "secondary"
+                    }
+                    onClick={() => {
+                      setType(ContentType.Instagram);
                     }}
                   />
                 </div>

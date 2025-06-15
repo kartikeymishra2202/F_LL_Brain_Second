@@ -1,256 +1,232 @@
 import { useEffect, useState } from "react";
+import { Search, Plus, Share2, Filter, Youtube } from "lucide-react";
 
 import { ContentModal } from "../components/CreateContentModal";
 import { Sidebar } from "../components/ui/Sidebar";
-import { ShareIcon } from "../icons/shareIcon";
-import { PlusIcon } from "../icons/plusIcon";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { useContent } from "../hooks/useContent";
 import { useNavigate } from "react-router-dom";
+import { useSidebar } from "../hooks/sidebarContent";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const { isOpen } = useSidebar();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/signin");
     }
-  }, [token, navigate]);
+  }, [navigate]);
 
   const [modalopen, setModalOpen] = useState(false);
-  //
   const { content, refresh } = useContent();
 
   useEffect(() => {
     refresh();
   }, [modalopen, refresh]);
-  // console.log("Content in Dashboard:", content);
-  // console.log("Type of content:", typeof content);
-  // console.log("Is content an array?", Array.isArray(content));
+
+  const categoryStats = [
+    {
+      name: "YouTube",
+      count: 1,
+      color: "bg-red-100 text-red-600",
+      icon: <Youtube className="w-5 h-5" />,
+    },
+    {
+      name: "Tweets",
+      count: 4,
+      color: "bg-blue-100 text-blue-600",
+      icon: <div className="w-5 h-5 bg-blue-500 rounded-full"></div>,
+    },
+  ];
+
   return (
-    <>
-      {" "}
-      <div className="grid grid-cols-[10%_90%]">
-        <div>
-          <Sidebar />
-        </div>
-        <div className="flex flex-col md:flex-row lg:flex-row">
-          <div>
-            {/* <!-- Stats Grid --> */}
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-              id="el-fibh1d4t"
-            >
-              <div
-                className="bg-white p-6 rounded-lg border border-gray-200"
-                id="el-rr4gz53f"
-              >
-                <div className="flex items-center" id="el-o375lxq9">
-                  <div
-                    className="p-2 bg-indigo-100 rounded-lg"
-                    id="el-fmr8zyew"
-                  >
-                    <svg
-                      className="w-6 h-6 text-indigo-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      id="el-ady54dqg"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        id="el-014soq3z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="ml-4" id="el-fqwxi6on">
-                    <h2
-                      className="text-sm font-medium text-gray-600"
-                      id="el-3v6s5a9t"
-                    >
-                      Skills Analyzed
-                    </h2>
-                    <p
-                      className="text-lg font-semibold text-gray-800"
-                      id="el-8b14yqus"
-                    >
-                      24
-                    </p>
-                  </div>
-                </div>
-              </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Sidebar stays fixed */}
+      <Sidebar />
 
-              <div
-                className="bg-white p-6 rounded-lg border border-gray-200"
-                id="el-88l058lf"
-              >
-                <div className="flex items-center" id="el-bq790b1e">
-                  <div className="p-2 bg-green-100 rounded-lg" id="el-zb1ou8uo">
-                    <svg
-                      className="w-6 h-6 text-green-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      id="el-uaxljpge"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                        id="el-mff1yrww"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="ml-4" id="el-nmv6pkro">
-                    <h2
-                      className="text-sm font-medium text-gray-600"
-                      id="el-wrilb2b7"
-                    >
-                      Skill Progress
-                    </h2>
-                    <p
-                      className="text-lg font-semibold text-gray-800"
-                      id="el-s99mvigf"
-                    >
-                      68%
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className="bg-white p-6 rounded-lg border border-gray-200"
-                id="el-mr2k5sid"
-              >
-                <div className="flex items-center" id="el-n6kv61cf">
-                  <div
-                    className="p-2 bg-yellow-100 rounded-lg"
-                    id="el-j42b0zwn"
-                  >
-                    <svg
-                      className="w-6 h-6 text-yellow-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      id="el-ztl1zuop"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                        id="el-uu3s75li"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="ml-4" id="el-70len20k">
-                    <h2
-                      className="text-sm font-medium text-gray-600"
-                      id="el-cx0f24wf"
-                    >
-                      Courses Complete
-                    </h2>
-                    <p
-                      className="text-lg font-semibold text-gray-800"
-                      id="el-0vzyuwwy"
-                    >
-                      12
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className="bg-white p-6 rounded-lg border border-gray-200"
-                id="el-yljiktfb"
-              >
-                <div className="flex items-center" id="el-q9mupwhn">
-                  <div
-                    className="p-2 bg-purple-100 rounded-lg"
-                    id="el-wu1gr2j2"
-                  >
-                    <svg
-                      className="w-6 h-6 text-purple-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      id="el-9reooicb"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                        id="el-nee6rcdd"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="ml-4" id="el-u1w02jfh">
-                    <h2
-                      className="text-sm font-medium text-gray-600"
-                      id="el-zqrn7s3y"
-                    >
-                      Career Matches
-                    </h2>
-                    <p
-                      className="text-lg font-semibold text-gray-800"
-                      id="el-0kqrk3rb"
-                    >
-                      8
-                    </p>
-                  </div>
-                </div>
-              </div>
+      {/* Content shifts based on sidebar width */}
+      <div
+        className={`transition-all duration-300 ${isOpen ? "pl-64" : "pl-20"}`}
+      >
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                My Digital Brain
+              </h1>
+              <p className="text-gray-600">
+                Your centralized hub for all important links and resources
+              </p>
             </div>
 
-            <div className="p-4 max-w-100 min-h-screen bg-gray-100  border-2">
-              <ContentModal
-                open={modalopen}
-                onClose={() => setModalOpen(!modalopen)}
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
+                />
+              </div>
+              <Button
+                onClick={() => setModalOpen(true)}
+                varient="primary"
+                size="sm"
+                text="Add New Link"
+                startIcon={<Plus className="w-4 h-4" />}
               />
-              <div className="flex gap-4 justify-end">
-                <Button
-                  onClick={() => {
-                    setModalOpen(true);
-                  }}
-                  varient={"primary"}
-                  size={"sm"}
-                  text="ADD Content"
-                  startIcon={<PlusIcon />}
-                />
-                <Button
-                  onClick={() => {
-                    alert("Share your Brain With Your Friends");
-                  }}
-                  varient={"secondary"}
-                  size={"sm"}
-                  text="Share Brain"
-                  startIcon={<ShareIcon />}
-                />
-              </div>
-              <div className="flex p-2 m-1">
-                <div className="p-2 m-1 gap-2 flex flex-wrap">
-                  {content?.map(({ type, link, title, contentId }) => (
-                    <Card
-                      type={type}
-                      link={link}
-                      title={title}
-                      contentId={contentId}
-                    />
-                  ))}
-                </div>
-              </div>
+              <button className="p-2 border border-gray-300 rounded-md hover:bg-gray-50">
+                <Filter className="w-4 h-4 text-gray-600" />
+              </button>
             </div>
           </div>
+
+          {/* Overview Section */}
+          <section className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">Overview</h2>
+              <span className="text-sm text-gray-500">View All</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              {categoryStats.map((category) => (
+                <div
+                  key={category.name}
+                  className="bg-white border border-gray-200 rounded-lg p-4 text-center"
+                >
+                  <div
+                    className={`w-12 h-12 ${
+                      category.color.split(" ")[0]
+                    } rounded-lg flex items-center justify-center mx-auto mb-3`}
+                  >
+                    {category.icon}
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 mb-1">
+                    {category.count}
+                  </div>
+                  <div className="text-sm text-gray-600">{category.name}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Recently Added */}
+          <section className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Recently Added
+              </h2>
+              <span className="text-sm text-gray-500">View All</span>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-lg divide-y">
+              {content.slice(0, 3).map((item) => (
+                <div
+                  key={item.contentId}
+                  className="p-4 flex items-center gap-4"
+                >
+                  <div className="flex-shrink-0">
+                    {item.type === "YouTube" && (
+                      <Youtube className="w-5 h-5 text-red-600" />
+                    )}
+                    {item.type === "Twitter" && (
+                      <div className="w-5 h-5 bg-blue-500 rounded-full"></div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-gray-900 truncate">
+                      {item.title}
+                    </p>
+                    <p className="text-sm text-gray-500 truncate">
+                      {item.link}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <span>{item.type}</span>
+                    <span>2 hours ago</span>
+                    <span className="text-blue-600">View 338</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Browse by Category */}
+          <section className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Browse by Category
+              </h2>
+              <span className="text-sm text-blue-600">Manage collections</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              {categoryStats.map((category) => (
+                <div
+                  key={category.name}
+                  className="bg-white border border-gray-200 rounded-lg p-6 text-center hover:shadow-md transition-shadow cursor-pointer"
+                >
+                  <div
+                    className={`w-12 h-12 ${
+                      category.color.split(" ")[0]
+                    } rounded-lg flex items-center justify-center mx-auto mb-3`}
+                  >
+                    {category.icon}
+                  </div>
+                  <div className="font-medium text-gray-900 mb-1">
+                    {category.name}
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    {category.count} items
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* All Content */}
+          <section className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">
+                All Content
+              </h2>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setModalOpen(true)}
+                  varient="primary"
+                  size="sm"
+                  text="ADD Content"
+                  startIcon={<Plus className="w-4 h-4" />}
+                />
+                <Button
+                  onClick={() => alert("Share your Brain With Your Friends")}
+                  varient="secondary"
+                  size="sm"
+                  text="Share Brain"
+                  startIcon={<Share2 className="w-4 h-4" />}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {content.map(({ type, link, title, contentId }) => (
+                <Card
+                  key={contentId}
+                  type={type}
+                  link={link}
+                  title={title}
+                  contentId={contentId}
+                />
+              ))}
+            </div>
+          </section>
+
+          {/* Content Modal */}
+          <ContentModal open={modalopen} onClose={() => setModalOpen(false)} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

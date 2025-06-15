@@ -3,12 +3,14 @@ import { PlusIcon } from "../../icons/plusIcon";
 import { ShareIcon } from "../../icons/shareIcon";
 import { Backend_Url } from "../../config";
 import axios from "axios";
+import { useEffect } from "react";
 
 interface CardProps {
   title: string;
   link: string;
-  type: "twitter" | "youtube";
+  type: "twitter" | "youtube" | "instagram";
   contentId: string;
+  
 }
 
 export function Card({ title, link, type, contentId }: CardProps) {
@@ -18,6 +20,15 @@ export function Card({ title, link, type, contentId }: CardProps) {
     const match = url.match(regExp);
     return match ? match[1] : null;
   }
+  useEffect(() => {
+    if (
+      type === "twitter" &&
+      (window as any).twttr &&
+      (window as any).twttr.widgets
+    ) {
+      (window as any).twttr.widgets.load();
+    }
+  }, [link, type]);
 
   async function handleDelete() {
     const gettoken = localStorage.getItem("token");
@@ -40,7 +51,18 @@ export function Card({ title, link, type, contentId }: CardProps) {
       alert("Failed to delete the item.");
     }
   }
-
+  function getShareUrl() {
+    if (type === "twitter") {
+      // Twitter share URL format
+      return `https://twitter.com/intent/tweet?url=${encodeURIComponent(link)}`;
+    } else if (type === "instagram") {
+      // Instagram => just open the post link
+      return link;
+    } else if (type === "youtube") {
+      return link;
+    }
+    return link;
+  }
   return (
     <div className="max-w-72 p-4 bg-white rounded-md border-gray-300 border outline-slate-200">
       <div className="flex justify-between">
@@ -56,7 +78,7 @@ export function Card({ title, link, type, contentId }: CardProps) {
         <div className="flex items-center text-2xl">
           <div className=" pr-2 text-gray-500">
             {" "}
-            <a href={link} target="_blank">
+            <a href={getShareUrl()} target="_blank">
               {" "}
               <ShareIcon />
             </a>
@@ -87,6 +109,18 @@ export function Card({ title, link, type, contentId }: CardProps) {
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             ></iframe>
+          )}
+        </div>
+        <div>
+          {type === "instagram" && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              View Instagram Post
+            </a>
           )}
         </div>
       </div>
