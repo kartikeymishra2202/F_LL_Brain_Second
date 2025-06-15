@@ -8,6 +8,12 @@ import { Button } from "../components/ui/Button";
 import { useContent } from "../hooks/useContent";
 import { useNavigate } from "react-router-dom";
 import { useSidebar } from "../hooks/sidebarContent";
+interface ContentItem {
+  contentId: string;
+  title: string;
+  link: string;
+  type: "youtube" | "twitter" | "instagram" | "YouTube" | "Twitter";
+}
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -23,9 +29,7 @@ function Dashboard() {
   const [modalopen, setModalOpen] = useState(false);
   const { content, refresh } = useContent();
 
-  useEffect(() => {
-    refresh();
-  }, [modalopen, refresh]);
+  useEffect(() => {}, [modalopen]);
 
   const categoryStats = [
     {
@@ -122,7 +126,7 @@ function Dashboard() {
               <span className="text-sm text-gray-500">View All</span>
             </div>
             <div className="bg-white border border-gray-200 rounded-lg divide-y">
-              {content.slice(0, 3).map((item) => (
+              {(content as ContentItem[]).slice(0, 3).map((item) => (
                 <div
                   key={item.contentId}
                   className="p-4 flex items-center gap-4"
@@ -217,6 +221,7 @@ function Dashboard() {
                   link={link}
                   title={title}
                   contentId={contentId}
+                  onDelete={refresh}
                 />
               ))}
             </div>

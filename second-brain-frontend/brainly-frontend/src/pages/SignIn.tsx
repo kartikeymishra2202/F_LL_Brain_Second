@@ -1,6 +1,7 @@
 import { useState, useRef, RefObject } from "react";
 import { Eye, EyeOff, Brain, Lightbulb, BookOpen, Zap } from "lucide-react";
 import { AxiosInstance } from "axios";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 // Input Component Props
 interface InputProps {
@@ -160,8 +161,7 @@ export function SignIn({ onSignIn, axiosInstance }: SignInProps) {
     const email = useremailRef.current?.value;
 
     if (!password || !email) {
-      alert("Please fill up all details to proceed");
-      return;
+      return toast.error("Fill up all Details to Proceed.");
     }
 
     setLoading(true);
@@ -180,14 +180,15 @@ export function SignIn({ onSignIn, axiosInstance }: SignInProps) {
           window.location.href = "/dashboard";
         }
       } else {
-        alert("No token received from server");
+        toast.error("Authentication Failed.");
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error signing in:", error);
       if (error.response) {
-        alert(error.response.data.message || "Sign in failed!");
+        toast.error(error.response.data.message || "Sign in failed!");
       } else {
-        alert(error.message || "Sign in failed!");
+        toast.error(error.response.data.message || "Sign in failed!");
       }
     } finally {
       setLoading(false);

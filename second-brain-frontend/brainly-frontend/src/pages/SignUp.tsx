@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Eye, EyeOff, Brain, Lightbulb, BookOpen, Zap } from "lucide-react";
 import axiosInstance from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 type InputProps = {
   placeholder: string;
@@ -155,12 +156,14 @@ export const SignUp: React.FC<SignUpProps> = () => {
     const email = useremailRef.current?.value.trim();
 
     if (!name || !email || !password) {
-      alert("Please fill all fields.");
+      toast.error("Please fill all fields.");
+
       return;
     }
 
     if (password.length < 6) {
-      alert("Password must be at least 6 characters.");
+      toast.error("Password must be at least 6 characters.");
+
       return;
     }
 
@@ -171,11 +174,15 @@ export const SignUp: React.FC<SignUpProps> = () => {
         email,
         password,
       });
-      alert("Sign up successful!");
+
+      toast.success("Sign up successful!");
+
       navigate("/signin");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Signup failed:", error);
-      alert(error.response?.data?.message || "Signup failed.");
+
+      toast.error(error.response?.data?.message || "Signup failed.");
     } finally {
       setLoading(false);
     }

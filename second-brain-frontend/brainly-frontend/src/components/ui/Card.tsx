@@ -2,18 +2,29 @@ import DeleteIcon from "../../icons/DeleteIcon";
 import { PlusIcon } from "../../icons/plusIcon";
 import { ShareIcon } from "../../icons/shareIcon";
 import { Backend_Url } from "../../config";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    twttr?: {
+      widgets: {
+        load: () => void;
+      };
+    };
+  }
+}
 
 interface CardProps {
   title: string;
   link: string;
   type: "twitter" | "youtube" | "instagram";
   contentId: string;
-  
+  onDelete: () => void;
 }
 
-export function Card({ title, link, type, contentId }: CardProps) {
+export function Card({ title, link, type, contentId, onDelete }: CardProps) {
   function getYouTubeVideoId(url: string): string | null {
     const regExp =
       /(?:youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -21,12 +32,8 @@ export function Card({ title, link, type, contentId }: CardProps) {
     return match ? match[1] : null;
   }
   useEffect(() => {
-    if (
-      type === "twitter" &&
-      (window as any).twttr &&
-      (window as any).twttr.widgets
-    ) {
-      (window as any).twttr.widgets.load();
+    if (type === "twitter" && window.twttr?.widgets?.load) {
+      window.twttr.widgets.load();
     }
   }, [link, type]);
 
@@ -45,10 +52,15 @@ export function Card({ title, link, type, contentId }: CardProps) {
           },
         }
       );
-      alert(response.data.message);
+      if (response.status === 201) {
+        toast.success(response.data.message || "Deleted successfully!");
+        onDelete();
+      } else {
+        toast.error("Failed to delete the item.");
+      }
     } catch (error) {
       console.log(error);
-      alert("Failed to delete the item.");
+      toast.error("Failed to delete the item.");
     }
   }
   function getShareUrl() {
@@ -78,10 +90,16 @@ export function Card({ title, link, type, contentId }: CardProps) {
         <div className="flex items-center text-2xl">
           <div className=" pr-2 text-gray-500">
             {" "}
-            <a href={getShareUrl()} target="_blank">
-              {" "}
+            <div
+              className="cursor-pointer pr-2 text-gray-500 hover:text-gray-700"
+              onClick={() => {
+                const url = getShareUrl();
+                navigator.clipboard.writeText(url);
+                toast.success("Share link copied to clipboard!");
+              }}
+            >
               <ShareIcon />
-            </a>
+            </div>
           </div>
           <div className=" pr-2 text-gray-500">
             <PlusIcon />

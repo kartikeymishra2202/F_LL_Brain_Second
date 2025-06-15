@@ -4,9 +4,19 @@ import { YouTubeIcon } from "../../icons/youtubeIcon";
 import { BrainIcon } from "../../icons/brainIcon";
 import { LogOut, Home, Menu, ChevronLeft } from "lucide-react";
 import { useSidebar } from "../../hooks/sidebarContent";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export function Sidebar() {
   const { isOpen, toggleSidebar } = useSidebar();
+  const navigate = useNavigate();
+
+  //logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("Logged out successfully!");
+    navigate("/signin");
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,7 +73,10 @@ export function Sidebar() {
       </ul>
 
       <div className="absolute bottom-4 w-full">
-        <button className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 w-full">
+        <button
+          className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 w-full"
+          onClick={handleLogout}
+        >
           <LogOut className="w-5 h-5" />
           {isOpen && <span className="text-sm font-medium">Logout</span>}
         </button>

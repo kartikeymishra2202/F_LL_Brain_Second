@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import { SignIn } from "./pages/SignIn";
+import { Toaster } from "react-hot-toast";
 
 import { SignUp } from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
@@ -22,6 +23,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </SidebarProvider>
+      <Toaster position="top-center" reverseOrder={false} />
     </>
   );
 }
