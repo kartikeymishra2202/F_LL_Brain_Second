@@ -28,40 +28,9 @@ Designed with scalability and user productivity in mind, the app is built using 
 Frontend	Backend	Database	Styling	Language	Deployment
 React + Vite	Node.js + Express	MongoDB	Tailwind CSS	TypeScript	Vercel + Render
 
-📁 Project Structure
-🔙 Backend (second-brain-backend)
 
-second-brain-backend/
-├── src/
-│   ├── db/               # MongoDB connection setup
-│   ├── middleware/       # Auth middleware, error handling
-│   ├── model/            # Mongoose models for links and users
-│   ├── routes/           # API routes for links and auth
-│   ├── utils.ts          # Utility functions (validation, etc.)
-│   └── index.ts          # Entry point (Express app config)
-├── render.yaml           # Render deployment config
-├── tsconfig.json         # TypeScript config
-├── vercel.json           # For frontend/backend combined deploys
-├── package.json
-🧠 Frontend (second-brain-frontend/brainly-frontend)
 
-brainly-frontend/
-├── public/
-├── src/
-│   ├── api/              # Axios functions for backend communication
-│   ├── assets/           # Images, logos, etc.
-│   ├── components/       # Reusable UI components
-│   ├── hooks/            # Custom React hooks
-│   ├── icons/            # Icon components or SVGs
-│   ├── pages/            # App pages (Home, Dashboard, Auth, etc.)
-│   ├── config.ts         # API base URL and environment variables
-│   ├── App.tsx           # Root component
-│   ├── main.tsx          # Vite entry point
-├── tailwind.config.js
-├── postcss.config.js
-├── tsconfig.json
-├── vite.config.ts
-├── vercel.json           # Vercel deployment config
+
 ⚙️ Getting Started
 🧩 Prerequisites
 Node.js v16+
