@@ -3,7 +3,7 @@ import { Search, Plus, Share2, Filter, Youtube } from "lucide-react";
 
 import { ContentModal } from "../components/CreateContentModal";
 import { Sidebar } from "../components/ui/Sidebar";
-import { Card } from "../components/ui/Card";
+import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/Button";
 import { useContent } from "../hooks/useContent";
 import { useNavigate } from "react-router-dom";
