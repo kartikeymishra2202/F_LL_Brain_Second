@@ -7,7 +7,12 @@ import connectDB from "./db/db";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "https://f-ll-brain-second.vercel.app/",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
