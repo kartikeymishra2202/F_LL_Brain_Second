@@ -5,9 +5,10 @@ import { Toaster } from "react-hot-toast";
 
 import { SignUp } from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
-import axiosInstance from "./axios-custom";
+
 import { SidebarProvider } from "./hooks/sidebarContent";
 import { useEffect } from "react";
+import axiosInstance from "./api/axios";
 
 function App() {
   useEffect(() => {

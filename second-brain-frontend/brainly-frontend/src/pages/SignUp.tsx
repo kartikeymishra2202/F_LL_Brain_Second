@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { Eye, EyeOff, Brain, Lightbulb, BookOpen, Zap } from "lucide-react";
-import axiosInstance from "../axios-custom";
+
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import axiosInstance from "../api/axios";
 
 type InputProps = {
   placeholder: string;
