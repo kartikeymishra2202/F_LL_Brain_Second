@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import { SignUp } from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
-import axiosInstance from "./axios";
+import axiosInstance from "./axios-custom";
 import { SidebarProvider } from "./hooks/sidebarContent";
 import { useEffect } from "react";
 
