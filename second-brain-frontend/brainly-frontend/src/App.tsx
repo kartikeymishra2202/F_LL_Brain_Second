@@ -13,7 +13,7 @@ import axiosInstance from "./api/axios";
 function App() {
   useEffect(() => {
     console.log("Warming up Second-Brain server...");
-    fetch("https://f-ll-brain-second.onrender.com", { method: "GET" }).catch(
+    fetch("https://f-ll-brain-second.onrender.com/", { method: "GET" }).catch(
       () => {
         console.log("Server warm-up ping is done.");
       }
