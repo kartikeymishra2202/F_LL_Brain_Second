@@ -8,7 +8,7 @@ import cors from "cors";
 
 const app = express();
 const corsOptions = {
-  origin: "https://f-ll-brain-second.vercel.app",
+  origin: "https://secondbrainv2.netlify.app",
   credentials: true,
 };
 
