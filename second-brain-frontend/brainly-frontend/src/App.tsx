@@ -7,8 +7,17 @@ import { SignUp } from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import axiosInstance from "./api/axios";
 import { SidebarProvider } from "./hooks/sidebarContent";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    console.log("Warming up Second-Brain server...");
+    fetch("https://f-ll-brain-second.onrender.com", { method: "GET" }).catch(
+      () => {
+        console.log("Server warm-up ping is done.");
+      }
+    );
+  }, []);
   return (
     <>
       <SidebarProvider>

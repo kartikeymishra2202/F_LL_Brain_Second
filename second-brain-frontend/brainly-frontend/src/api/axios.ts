@@ -11,7 +11,7 @@ const SPIN_UP_TOAST_ID = "server-spin-up";
 const axiosInstance = axios.create({
   baseURL: Backend_Url,
   withCredentials: true,
-  timeout: AXIOS_TIMEOUT, // 10 seconds timeout
+  timeout: AXIOS_TIMEOUT,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -44,12 +44,11 @@ axiosInstance.interceptors.request.use(
 // Add response interceptor for better error handling
 axiosInstance.interceptors.response.use(
   (response) => {
-    // --- NEW: On success, clear the timer and dismiss the toast ---
+    // ---On success, clear the timer and dismiss the toast ---
     if (response.config.metadata?.timer) {
       clearTimeout(response.config.metadata.timer);
     }
     toast.dismiss(SPIN_UP_TOAST_ID);
-    // --- End of new logic ---
 
     return response;
   },
@@ -62,7 +61,7 @@ axiosInstance.interceptors.response.use(
     if (error.code === "ECONNABORTED") {
       console.error("Request timeout");
       toast.error("The request timed out. Please try again.", {
-        id: "timeout-error", // Use a different ID
+        id: "timeout-error",
       });
     }
     return Promise.reject(error);

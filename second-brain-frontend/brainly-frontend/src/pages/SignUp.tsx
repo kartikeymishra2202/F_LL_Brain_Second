@@ -133,9 +133,7 @@ const SecondBrainIllustration: React.FC = () => (
       <div className="w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-6 mx-auto shadow-lg">
         <Brain className="text-white" size={48} />
       </div>
-      <h3 className="text-2xl font-bold text-gray-800 mb-2">
-        Your Second Brain
-      </h3>
+      <h3 className="text-2xl font-bold text-gray-800 mb-2">Second Brain</h3>
       <p className="text-gray-600 max-w-xs mx-auto leading-relaxed">
         Organize your thoughts, ideas, and knowledge in one intelligent space.
       </p>
