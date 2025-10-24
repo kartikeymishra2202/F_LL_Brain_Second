@@ -11,7 +11,9 @@ const corsOptions = {
   origin: "https://secondbrainv2.netlify.app",
   credentials: true,
 };
-
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "Server is awake and running!" });
+});
 app.use(cors(corsOptions));
 
 app.use(express.json());
